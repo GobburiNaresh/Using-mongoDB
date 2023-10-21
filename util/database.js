@@ -1,24 +1,26 @@
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
-let db;
-const mongoConnect = (callback) => {
-  MongoClient.connect('mongodb+srv://naresh:NAResh123@expensetracker.kadvfol.mongodb.net/?retryWrites=true&w=majority')
-  .then(client =>{
-    console.log('DataBase is Connected!');
-    db = client.db();
-    callback();
-  })
-  .catch(err =>{
-    console.log(err);
-    throw err;
-  })
-  
-}
+let _db;
+
+const mongoConnect = callback => {
+  MongoClient.connect(
+    'mongodb+srv://naresh:NAResh123@expensetracker.kadvfol.mongodb.net/?retryWrites=true&w=majority'
+  )
+    .then(client => {
+      console.log('Connected!');
+      _db = client.db();
+      callback();
+    })
+    .catch(err => {
+      console.log(err);
+      throw err;
+    });
+};
 
 const getDb = () => {
-  if(db) {
-    return db;
+  if (_db) {
+    return _db;
   }
   throw 'No database found!';
 };
